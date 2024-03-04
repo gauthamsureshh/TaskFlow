@@ -1,3 +1,10 @@
 .add-form{
     margin-bottom: 40px;
 }
+.btn{
+    background-color: rgb(10, 208, 7);
+}
+.reminder{
+    font-size: medium;
+    font-weight: bold;
+}
