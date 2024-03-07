@@ -17,6 +17,7 @@ import { HomepageComponent } from './Component/homepage/homepage.component';
 import { MainpageComponent } from './Component/mainpage/mainpage.component';
 import { AddComponent } from './Component/add/add.component';
 import { AuthenticationComponent } from './Auth/authentication/authentication.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -38,6 +39,8 @@ import { AuthenticationComponent } from './Auth/authentication/authentication.co
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot()
   ],

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder,Validator, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../Service/auth.service';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-authentication',
@@ -11,24 +11,39 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationComponent {
 
-  constructor(private builder: FormBuilder,private toastr:ToastrService, private auth:AuthService, private router:Router){}
+  constructor(private toastr:ToastrService, private auth:AuthService, private router:Router){}
 
-  registerForm=this.builder.group({
-    name:this.builder.control('',Validators.required),
-    email:this.builder.control('',Validators.compose([Validators.required,Validators.email])),
-    password:this.builder.control('',Validators.required)
-  });
+  name:string='';
+  email:string='';
+  password:string='';
 
-  register(){
-    if(this.registerForm.valid){
-      this.auth.registerUser(this.registerForm.value).subscribe(res=>{
-        this.toastr.success("Registered Successfully");
+  register():void{
+    const data={ name: this.name, email: this.email, password: this.password };
+    this.auth.registerUser(data).subscribe((response)=>{
+      if(response.token){
+        this.toastr.success("Account Created Successfully..!")
         this.router.navigate(['/']);
-      });
-    }
-    else{
-      alert('Enter Valid Data')
-    }
+      }
+    },
+    (error)=>{
+      console.log(`error is${error.message}`);
+    })
   }
+  
 
+  login():void{
+    const credentials = { email: this.email, password: this.password };
+    this.auth.loginUser(credentials).subscribe((response)=>{
+      if(response.token){
+        console.log(`token is ${response.token}`)
+        this.toastr.success("Login Successful")
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        this.router.navigate(['todo']);
+      } 
+    });
+  }
 }
+
+
+//this.toastr.success("Registered Successfully");
